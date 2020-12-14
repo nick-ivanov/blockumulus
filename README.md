@@ -1,2 +1,2 @@
-# blockumulus
+# Blockumulus
 Fully-Decentralized Cloud Environment
