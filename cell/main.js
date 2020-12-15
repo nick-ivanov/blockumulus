@@ -15,7 +15,7 @@ function main() {
 
         json_object = req.body
 
-        console.log(json_object.foo);
+        console.log(json_object);
         res.send({gar: "far"});
     })
 
