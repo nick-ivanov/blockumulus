@@ -1,14 +1,17 @@
-function post_command(address, port, op, data, public_address, private_key) {
+function post_command(address, port, op, ref, data, public_address, private_key) {
     const { v4: uuidv4 } = require('uuid');
-    const ecdsa = require("./ecdsa");
     var Client = require('node-rest-client').Client;
- 
     var client = new Client();
+
+    const ecdsa = require("./ecdsa");
+    const time  = require("./time");
 
     var command_object = Object();
     command_object.from = public_address;
-    command_object.uuid = uuidv4();
     command_object.op = op;
+    command_object.uuid = uuidv4();
+    command_object.ref = ref;
+    command_object.timestamp = time.get_timestamp_sec();
     command_object.data = data;
     command_signature = ecdsa.sign_message(JSON.stringify(command_object), private_key);
 

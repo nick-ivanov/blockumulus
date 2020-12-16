@@ -1,7 +1,7 @@
 function read_file(filename) {
     const fs = require('fs')
     try {
-      const data = fs.readFileSync(filename, 'utf8')
+      const data = fs.readFileSync(filename)
       return data
     } catch (err) {
       return null

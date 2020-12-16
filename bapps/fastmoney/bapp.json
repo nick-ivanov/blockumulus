@@ -1,0 +1,8 @@
+{
+    "format_version": "0.1",
+    "name": "fastmoney",
+    "owner": "0x0",
+    "interpreter": "pypy-7.3.1",
+    "code_file": "code.py",
+    "code_checksum": ""
+}
