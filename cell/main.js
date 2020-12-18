@@ -55,6 +55,9 @@ function main() {
 
         if(json_object.command.op === "COHORT") {
             console.log("Hey, a cohort request is detected.");
+
+            
+
         }
 
         if(json_object.command.op === "TXN") {
