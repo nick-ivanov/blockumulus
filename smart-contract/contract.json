@@ -4,6 +4,7 @@
     "smart_contract": "0x5018219A86EAD0024d7386030D09f2598A6aB425",
     "gas_limit": "2000000",
     "gas_price": "200000000000",
+    "confirmations_needed": 5,
     "contract_abi": [
         {
             "inputs": [],

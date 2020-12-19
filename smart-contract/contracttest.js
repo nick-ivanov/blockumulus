@@ -6,23 +6,22 @@ function main() {
     const conf = require("../api/conf");
 
     var blah_hash = hash.keccak256_hash("blahblah");
-    console.log(blah_hash);
-
     var cell_config = conf.read_config("../cell/config.json");
     var private_key = cell_config.private_key;
-
-    //console.log(`PRK: ${private_key}`);
-
     var contract_config = "../smart-contract/contract.json";
 
-    var ret_value = contract.do_cell1_report (
+    contract.do_cell1_report (
             contract_config,
             private_key,
-            1021,
-            blah_hash
+            1031,
+            blah_hash,
+            function callback(result) {
+                console.log(`TRANSACTION RESULT: ${JSON.stringify(result)}`);
+                return;
+            }
         );
-
-    console.log(`Ret value: ${ret_value}`);
+        
+    
 }
 
 main()

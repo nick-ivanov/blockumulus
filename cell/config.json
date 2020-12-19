@@ -1,5 +1,13 @@
 {
     "private_key": "0x994f99dc1fbc090196441d55f7514ffdafe80a3a9e9316664e15c4a29f9a74c5",
     "ethereum_address": "0x550F266Eb5C840fD666369a76D3b416d749a917B",
-    "seal_period": 600
+    "seal_period": 600,
+    "cell_ips": ["64.225.14.250", "104.236.14.189", "104.236.14.188", "157.245.117.157"],
+    "cell_eth_addresses": [
+        "0x550F266Eb5C840fD666369a76D3b416d749a917B",
+        "0xdbC1Ab23d82E14DD73B0C296323B619d9DDbA369",
+        "0x1F37bc6da4Ce315a0F0a5331aa1509073146AD2C",
+        "0xc46275f7928FAE177A4bEEc4288dBf2807587671"
+    ],
+    "this_ip": "64.225.14.250"
 }
