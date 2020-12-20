@@ -1,6 +1,6 @@
 import sys, json, pathlib;
 
-APP_PATH = "/home/nick/res/blockumulus/yos-repo/blockumulus/bapps/fastmoney"
+APP_PATH = "/root/blockumulus/bapps/fastmoney"
 
 def get_balance(wallet):
     try:

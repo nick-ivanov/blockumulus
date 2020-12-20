@@ -38,12 +38,10 @@ function main() {
     const app = express();
     const port = 3141;
 
-    config_json = conf.read_config("./config.json");
+    config_json = conf.read_config("../../blockumulus-config/cell-config.json");
 
     app.use(bodyParser.urlencoded({ extended: true }));
-    //app.use(bodyParser.json());
     app.use(bodyParser.raw());
-
     app.use(bodyParser.json({ limit: '50mb' }))
 
     app.post('/', function (req, res) {
@@ -79,8 +77,8 @@ function main() {
             }
 
             if(json_object.command.op === "TXN") {
-                process_transaction(json_object, res);
                 forward.forward_request(config_json, json_object);
+                process_transaction(json_object, res);
             }
         }
     });

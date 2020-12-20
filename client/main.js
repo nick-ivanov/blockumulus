@@ -8,7 +8,7 @@ const post_message = require('../api/post_message');
 const compose_message = require('../api/compose_message');
 
 function main() {
-    config_json = conf.read_config("./config.json");
+    config_json = conf.read_config("../../blockumulus-config/client-config.json");
     console.log(`Private Key: ${config_json.private_key}, Address: ${config_json.ethereum_address}`);
 
 
@@ -23,13 +23,6 @@ function main() {
 
     // console.log(time.get_timestamp_sec());
     // console.log(time.get_timestamp_ms());
-
-
-
- 
-
-
-
 
     // var message = compose_message.compose_message (
     //     "TXN",
@@ -56,7 +49,7 @@ function main() {
         config_json.private_key
     );
 
-    var result = post_message.post_message("localhost", 3141, message);
+    var result = post_message.post_message("64.225.14.250", 3141, message);
 
     console.log(`RESULT: ${result}`);
 }

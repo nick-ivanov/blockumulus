@@ -20,12 +20,11 @@ function forward_request(config_json, json_object) {
         );
 
         console.log(`Forwarding message to ${config_json.cell_ips[i]}: ${JSON.stringify(message)}`);
-
-        //post_message.post_message(config_json.cell_ips[i], 3141, message);
+        post_message.post_message(config_json.cell_ips[i], 3141, message);
     }
 
 
-    return ;
+    return "test";
 }
 
 module.exports = { forward_request };

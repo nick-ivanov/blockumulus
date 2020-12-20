@@ -6,9 +6,9 @@ function main() {
     const conf = require("../api/conf");
 
     var blah_hash = hash.keccak256_hash("blahblah");
-    var cell_config = conf.read_config("../cell/config.json");
+    var cell_config = conf.read_config("../../blockumulus-config/client-config.json");
     var private_key = cell_config.private_key;
-    var contract_config = "../smart-contract/contract.json";
+    var contract_config = "../../blockumulus-config/contract-config.json";
 
     contract.do_cell1_report (
             contract_config,

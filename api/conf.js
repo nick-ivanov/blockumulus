@@ -5,7 +5,7 @@ function read_config(config_json_file) {
     try{
         var rawdata = fs.readFileSync(config_json_file);
     } catch (error){
-        console.log("Could not open config.json file.");
+        console.log("Could not open a configuration file.");
         return null;
     }
     

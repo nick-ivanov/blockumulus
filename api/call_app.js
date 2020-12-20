@@ -1,7 +1,7 @@
 function call_app(bapp, request, callback) {
     const { spawn } = require("child_process");
 
-    const bapp_dir = "/home/nick/res/blockumulus/yos-repo/blockumulus/bapps";
+    const bapp_dir = "/root/blockumulus/bapps";
 
     rss = request.split(" ");
     var A = [`${bapp_dir}/${bapp}/code.py`].concat(rss);
@@ -14,7 +14,7 @@ function call_app(bapp, request, callback) {
         result += data.toString();
    });
    command.on('close', function(code) {
-       return callback(result);
+        return callback(result);       
    });
 }
 
