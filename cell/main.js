@@ -8,7 +8,33 @@ const compose_message = require("../api/compose_message");
 const conf = require("../api/conf");
 const uuidtrack = require("../api/uuidtrack");
 
-function process_transaction(json_object, res) {
+
+function process_forward(json_object, res) {
+    console.log("Hey, there is an incoming transaction forward request.");
+
+    //console.log(`BAPP: ${json_object.command.data.bapp}`);
+    console.log(`REQUEST: ${json_object.command.data.request}`);
+
+    call_app.call_app(json_object.command.data.forwarded_message.command.data.bapp, json_object.command.data.forwarded_message.command.data.request,
+        function(result) {
+            console.log(`The forwarded app reply: ${result.trim()}`);
+
+            var reply_message = compose_message.compose_message (
+                "FORWARD-OK",
+                json_object.command.from,
+                json_object.command.uuid,
+                { fwd_app_reply: result.trim() },
+                config_json.ethereum_address,
+                config_json.private_key
+            );
+    
+            res.send(reply_message);
+        }
+    );
+}
+
+
+function process_transaction(json_object, res, extra) {
     console.log("Hey, there is an incoming transaction.");
 
     console.log(`BAPP: ${json_object.command.data.bapp}`);
@@ -27,7 +53,9 @@ function process_transaction(json_object, res) {
                 config_json.private_key
             );
     
-            res.send(reply_message);
+            console.log(`S1: ${reply_message}\n\nEXTRA:${JSON.stringify(extra)}`);
+            console.log(`S2: ${JSON.stringify(reply_message)}\n---\nEXTRA:${extra}`);
+            res.send(`REPLY_MESSAGE: ${JSON.stringify(reply_message)}\n\nEXTRA:${JSON.stringify(extra)}`);
         }
     );
 }
@@ -74,11 +102,16 @@ function main() {
 
             if(json_object.command.op === "FORWARD") {
                 console.log("Hey, a cohort request is detected.");
+                process_forward(json_object, res);
             }
 
             if(json_object.command.op === "TXN") {
-                forward.forward_request(config_json, json_object);
-                process_transaction(json_object, res);
+                forward.forward_request(config_json, json_object, function(data) {
+                        //console.log(`DATA in cell/main(): ${JSON.stringify(data)}`);
+                        process_transaction(json_object, res, data);
+                    }
+                );
+                //console.log(`Let's see what's in res: ${JSON.stringify(res)}`);
             }
         }
     });

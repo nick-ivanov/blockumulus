@@ -49,9 +49,14 @@ function main() {
         config_json.private_key
     );
 
-    var result = post_message.post_message("64.225.14.250", 3141, message);
+    post_message.post_message("64.225.14.250", 3141, message, function(data) {
+            //console.log(`DATA in client/main(): ${JSON.stringify(data)}`);
+            console.log(`DATA in client/main() 1: ${data}`);
 
-    console.log(`RESULT: ${result}`);
+        }
+    );
+
+    //console.log(`RESULT: ${result}`);
 }
 
 main();
