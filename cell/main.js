@@ -7,6 +7,7 @@ const hashfile = require("../api/hashfile");
 const compose_message = require("../api/compose_message");
 const conf = require("../api/conf");
 const uuidtrack = require("../api/uuidtrack");
+const report = require("../api/report");
 
 
 function process_forward(json_object, res) {
@@ -34,7 +35,7 @@ function process_forward(json_object, res) {
 }
 
 
-function process_transaction(json_object, res, extra) {
+function process_transaction(json_object, res, forwarded_replies) {
     console.log("Hey, there is an incoming transaction.");
 
     console.log(`BAPP: ${json_object.command.data.bapp}`);
@@ -48,14 +49,12 @@ function process_transaction(json_object, res, extra) {
                 "TXN-OK",
                 json_object.command.from,
                 json_object.command.uuid,
-                { app_reply: result.trim() },
+                { app_reply: result.trim(), forwarded_replies: forwarded_replies },
                 config_json.ethereum_address,
                 config_json.private_key
             );
     
-            console.log(`S1: ${reply_message}\n\nEXTRA:${JSON.stringify(extra)}`);
-            console.log(`S2: ${JSON.stringify(reply_message)}\n---\nEXTRA:${extra}`);
-            res.send(`REPLY_MESSAGE: ${JSON.stringify(reply_message)}\n\nEXTRA:${JSON.stringify(extra)}`);
+            res.send(reply_message);
         }
     );
 }
@@ -98,6 +97,24 @@ function main() {
 
             if(json_object.command.op === "ACCOUNT") {
                 console.log("Hey, an account request is detected.");
+            }
+
+            if(json_object.command.op === "REPORT") {
+                console.log("Hey, a REPORT request is detected.");
+                last_report = report.get_last_report();
+
+                var reply_message = compose_message.compose_message (
+                    "REPORT-OK",
+                    json_object.command.from,
+                    json_object.command.uuid,
+                    { last_report: last_report },
+                    config_json.ethereum_address,
+                    config_json.private_key
+                );
+        
+                res.send(reply_message);
+                
+                // TODO: Do the blockchain stuff
             }
 
             if(json_object.command.op === "FORWARD") {

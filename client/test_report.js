@@ -38,16 +38,16 @@ function main() {
     // console.log(`RESULT: ${result}`);
 
     var message = compose_message.compose_message (
-        "TXN",
+        "REPORT",
         "0x550F266Eb5C840fD666369a76D3b416d749a917B",
         "",
-        { bapp: "fastmoney", request: `fingerprint` },
+        { },
         config_json.ethereum_address,
         config_json.private_key
     );
 
     post_message.post_message("64.225.14.250", 3141, message, function(data) {
-            console.log(`DATA in client/main(): ${JSON.stringify(data)}`);
+            console.log(`REPORT Reply: ${JSON.stringify(data)}`);
             // console.log("===============");
             // console.log(`DATA in client/main() 1: ${data}`);
         }

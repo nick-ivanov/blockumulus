@@ -6,7 +6,7 @@ function call_app(bapp, request, callback) {
     rss = request.split(" ");
     var A = [`${bapp_dir}/${bapp}/code.py`].concat(rss);
 
-    const command = spawn(`pypy3`, A);
+    const command = spawn(`python3`, A);
 
     var result = "";
 

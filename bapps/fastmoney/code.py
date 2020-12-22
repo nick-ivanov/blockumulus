@@ -1,6 +1,17 @@
-import sys, json, pathlib;
+import sys, json, pathlib, os
+from web3 import Web3
 
 APP_PATH = "/root/blockumulus/bapps/fastmoney"
+#APP_PATH = "/home/nick/res/blockumulus/yos-repo/blockumulus/bapps/fastmoney"
+
+def get_data_snapshot_fingerprint():
+    ret = []
+    balances = os.listdir(f"{APP_PATH}/data/balances")
+    transactions = os.listdir(f"{APP_PATH}/data/transactions")
+    ret.extend(balances)
+    ret.extend(transactions)
+    s = ''.join(sorted(ret, reverse=False))
+    return Web3.toHex(Web3.keccak(text=s))
 
 def get_balance(wallet):
     try:
@@ -46,7 +57,11 @@ def submit_transaction(tid, src, dst, amount):
         return False
 
 def main():
-    if sys.argv[1] == "balance":
+    if len(sys.argv) < 2:
+        return
+    elif sys.argv[1] == "fingerprint":
+        print(get_data_snapshot_fingerprint())
+    elif sys.argv[1] == "balance":
         print(get_balance(sys.argv[2]))
     elif sys.argv[1] == "transfer":
         print(submit_transaction(sys.argv[2], sys.argv[3], sys.argv[4], int(sys.argv[5])))

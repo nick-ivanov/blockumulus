@@ -17,9 +17,7 @@ RETURN VALUE:
 function timestamp_status(seal_period, timestamp) {
     var current_timestamp = get_timestamp_sec();
 
-    
-
-
+    // TODO: finish (if needed)
 }
 
 module.exports = { get_timestamp_sec, get_timestamp_ms, timestamp_status };

@@ -2,7 +2,7 @@
     "format_version": "0.1",
     "name": "fastmoney",
     "owner": "0x0",
-    "interpreter": "pypy-7.3.1",
+    "interpreter": "python-3.8.5",
     "code_file": "code.py",
     "code_checksum": ""
 }

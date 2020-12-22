@@ -16,6 +16,7 @@ function proceed_forward(ip, port, message, callback) {
 
 
 function forward_request(config_json, json_object, callback) {
+    console.log(`LOG: @forward_request config_json=${JSON.stringify(config_json)}, json_object=${JSON.stringify(json_object)}`);
     const compose_message = require("../api/compose_message");
     console.log(`@foward_request json_object: ${JSON.stringify(json_object)}`);
     var accrue = "DATA 111: ";
@@ -29,6 +30,8 @@ function forward_request(config_json, json_object, callback) {
         config_json.private_key
     );
 
+    console.log(`LOG @forward_request message0=${message0}`);
+
     post_message.post_message(config_json.cell_ips[0], 3141, message0, function(data0) {
 
         var message1 = compose_message.compose_message (
@@ -39,6 +42,8 @@ function forward_request(config_json, json_object, callback) {
             config_json.ethereum_address,
             config_json.private_key
         );
+
+        console.log(`LOG @forward_request message1=${message1}`);
     
         post_message.post_message(config_json.cell_ips[1], 3141, message1, function(data1) {
 
@@ -50,21 +55,12 @@ function forward_request(config_json, json_object, callback) {
                 config_json.ethereum_address,
                 config_json.private_key
             );
+
+            console.log(`LOG @forward_request message2=${message2}`);
                         
             post_message.post_message(config_json.cell_ips[2], 3141, message2, function(data2) {
-
-                var message3 = compose_message.compose_message (
-                    "FORWARD",
-                    config_json.cell_eth_addresses[3],
-                    "",
-                    { forwarded_message: json_object },
-                    config_json.ethereum_address,
-                    config_json.private_key
-                );
-                        
-                post_message.post_message(config_json.cell_ips[3], 3141, message3, function(data3) {
-                    return callback(`${JSON.stringify(data0)}\n===\n${JSON.stringify(data1)}\n===\n${JSON.stringify(data2)}\n===\n${JSON.stringify(data3)}\n===\n`);
-                });
+                var forwarded_replies = [data0, data1, data2];
+                return callback(forwarded_replies);
             });
         });
     });
