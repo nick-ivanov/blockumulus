@@ -8,7 +8,8 @@ const compose_message = require("../api/compose_message");
 const conf = require("../api/conf");
 const uuidtrack = require("../api/uuidtrack");
 const report = require("../api/report");
-
+const contract = require("../api/contract");
+const time = require("../api/time");
 
 function process_forward(json_object, res) {
     console.log("Hey, there is an incoming transaction forward request.");
@@ -34,29 +35,118 @@ function process_forward(json_object, res) {
     );
 }
 
-
 function process_transaction(json_object, res, forwarded_replies) {
     console.log("Hey, there is an incoming transaction.");
 
-    console.log(`BAPP: ${json_object.command.data.bapp}`);
-    console.log(`REQUEST: ${json_object.command.data.request}`);
+    var last_report = report.get_last_report();
+    var report_due = time.recent_report_due(config_json);
 
-    call_app.call_app(json_object.command.data.bapp, json_object.command.data.request,
-        function(result) {
-            console.log(`The app reply: ${result.trim()}`);
+    console.log(`LOG: @cell/main: process_transaction, last_report: ${last_report}`);
+    console.log(`LOG: @cell/main: REPORT, report_due: ${report_due}`);
 
-            var reply_message = compose_message.compose_message (
-                "TXN-OK",
-                json_object.command.from,
-                json_object.command.uuid,
-                { app_reply: result.trim(), forwarded_replies: forwarded_replies },
-                config_json.ethereum_address,
-                config_json.private_key
-            );
+    if(last_report < report_due) {
+        console.log("Report expired");
+        var reply_message = compose_message.compose_message (
+            "TXN-FAIL",
+            json_object.command.from,
+            json_object.command.uuid,
+            { app_reply: result.trim(), forwarded_replies: forwarded_replies, message: "Report expired." },
+            config_json.ethereum_address,
+            config_json.private_key
+        );
+
+        res.send(reply_message);    
+
+    } else {
+        console.log("Report update is not needed.");
     
-            res.send(reply_message);
+        call_app.call_app(json_object.command.data.bapp, json_object.command.data.request,
+            function(result) {
+                console.log(`The app reply: ${result.trim()}`);
+
+                var reply_message = compose_message.compose_message (
+                    "TXN-OK",
+                    json_object.command.from,
+                    json_object.command.uuid,
+                    { app_reply: result.trim(), forwarded_replies: forwarded_replies },
+                    config_json.ethereum_address,
+                    config_json.private_key
+                );
+        
+                res.send(reply_message);
+            }
+        );
+    }
+}
+
+function process_report(config_json, callback1) {
+    last_report = report.get_last_report();
+    console.log(`LOG: @cell/main: REPORT, last_report: ${last_report}`);
+
+    console.log(`LOG: @cell/main, config_json.this_ip: ${config_json.this_ip}`);
+    
+    var contract_config = "../../blockumulus-config/contract-config.json";
+
+    var report_due = time.recent_report_due(config_json);
+
+    console.log(`LOG: @cell/main: REPORT, report_due: ${report_due}`);
+
+    call_app.call_app("fastmoney", "fingerprint", function(result) {
+        console.log(`LOG @cell/main:REPORT, result: ${result}`);
+
+
+        if(config_json.this_ip === "64.225.14.250") {
+            contract.do_cell1_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell1): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
         }
-    );
+
+        if(config_json.this_ip === "104.236.14.189") {
+            contract.do_cell2_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell2): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
+        }
+
+        if(config_json.this_ip === "104.236.14.188") {
+            contract.do_cell3_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell3): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
+        }
+
+        if(config_json.this_ip === "157.245.117.157") {
+            contract.do_cell4_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
+        }
+    });
 }
 
 function main() {
@@ -101,20 +191,38 @@ function main() {
 
             if(json_object.command.op === "REPORT") {
                 console.log("Hey, a REPORT request is detected.");
-                last_report = report.get_last_report();
-
-                var reply_message = compose_message.compose_message (
-                    "REPORT-OK",
-                    json_object.command.from,
-                    json_object.command.uuid,
-                    { last_report: last_report },
-                    config_json.ethereum_address,
-                    config_json.private_key
-                );
-        
-                res.send(reply_message);
                 
-                // TODO: Do the blockchain stuff
+                var last_report = report.get_last_report();
+                var report_due = time.recent_report_due(config_json);
+
+                if(last_report < report_due) {
+                    console.log("Report expired");
+                    process_report(config_json, function() {
+                        report.save_last_report(report_due);
+                        var reply_message = compose_message.compose_message (
+                            "REPORT-OK",
+                            json_object.command.from,
+                            json_object.command.uuid,
+                            { last_report: last_report },
+                            config_json.ethereum_address,
+                            config_json.private_key
+                        );
+    
+                        res.send(reply_message);
+                    });
+                } else {
+                    console.log("Report update is not needed.");
+                    var reply_message = compose_message.compose_message (
+                        "REPORT-FAIL",
+                        json_object.command.from,
+                        json_object.command.uuid,
+                        { last_report: last_report, message: "Report update is not needed." },
+                        config_json.ethereum_address,
+                        config_json.private_key
+                    );
+
+                    res.send(reply_message);
+                }
             }
 
             if(json_object.command.op === "FORWARD") {
@@ -124,7 +232,6 @@ function main() {
 
             if(json_object.command.op === "TXN") {
                 forward.forward_request(config_json, json_object, function(data) {
-                        //console.log(`DATA in cell/main(): ${JSON.stringify(data)}`);
                         process_transaction(json_object, res, data);
                     }
                 );

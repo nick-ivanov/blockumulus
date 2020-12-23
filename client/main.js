@@ -53,6 +53,42 @@ function main() {
         }
     );
 
+
+    // var message1 = compose_message.compose_message (
+    //     "TXN",
+    //     "0x550F266Eb5C840fD666369a76D3b416d749a917B",
+    //     "",
+    //     { bapp: "fastmoney", request: `balance bob` },
+    //     config_json.ethereum_address,
+    //     config_json.private_key
+    // );
+
+    // post_message.post_message("64.225.14.250", 3141, message1, function(data) {
+    //         console.log(`DATA in client/main(): ${JSON.stringify(data)}`);
+    //         // console.log("===============");
+    //         // console.log(`DATA in client/main() 1: ${data}`);
+    //     }
+    // );
+
+    // var message2 = compose_message.compose_message (
+    //     "TXN",
+    //     "0x550F266Eb5C840fD666369a76D3b416d749a917B",
+    //     "",
+    //     { bapp: "fastmoney", request: `balance nick` },
+    //     config_json.ethereum_address,
+    //     config_json.private_key
+    // );
+
+
+    // post_message.post_message("64.225.14.250", 3141, message2, function(data) {
+    //     console.log(`DATA in client/main(): ${JSON.stringify(data)}`);
+    //     // console.log("===============");
+    //     // console.log(`DATA in client/main() 1: ${data}`);
+    //     }
+    // );
+
+
+
     //console.log(`RESULT: ${result}`);
 }
 
