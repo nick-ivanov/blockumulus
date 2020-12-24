@@ -1,4 +1,4 @@
-import sys, json, pathlib, os
+import sys, json, pathlib, os, uuid
 from web3 import Web3
 
 APP_PATH = "/root/blockumulus/bapps/fastmoney"
@@ -40,31 +40,31 @@ def transaction_exists(tid):
     else:
         return False
 
-def submit_transaction(tid, src, dst, amount):
-    if not transaction_exists(tid):
-        f = open(f"{APP_PATH}/data/transactions/{tid}", "w+")
-        src_balance = get_balance(src)
+def submit_transaction(txn_uuid, from_address, dst, amount):
+    if not transaction_exists(txn_uuid):
+        f = open(f"{APP_PATH}/data/transactions/{txn_uuid}", "w+")
+        src_balance = get_balance(from_address)
         dst_balance = get_balance(dst)
 
         if src_balance >= amount:
-            set_balance(src, src_balance - amount)
+            set_balance(from_address, src_balance - amount)
             set_balance(dst, dst_balance + amount)
 
-        f.write(f"{src} -> {dst}: {amount}")
+        f.write(f"{from_address} -> {dst}: {amount}")
         f.close()
-        return True
+        return txn_uuid
     else:
-        return False
+        return ""
 
 def main():
     if len(sys.argv) < 2:
         return
-    elif sys.argv[1] == "fingerprint":
+    elif sys.argv[3] == "fingerprint":
         print(get_data_snapshot_fingerprint())
-    elif sys.argv[1] == "balance":
+    elif sys.argv[3] == "balance":
         print(get_balance(sys.argv[2]))
-    elif sys.argv[1] == "transfer":
-        print(submit_transaction(sys.argv[2], sys.argv[3], sys.argv[4], int(sys.argv[5])))
+    elif sys.argv[3] == "transfer":
+        print(submit_transaction(sys.argv[1], sys.argv[2], sys.argv[4], int(sys.argv[5])))
     else:
         print("False")    
 

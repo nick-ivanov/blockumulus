@@ -1,5 +1,5 @@
 function post_message(address, port, message, callback) {
-    console.log(`LOG: @post_message address=${address}, port=${port}, message=${message}`);
+    //console.log(`LOG: @post_message address=${address}, port=${port}, message=${message}`);
 
     var Client = require('node-rest-client').Client;
     var client = new Client();

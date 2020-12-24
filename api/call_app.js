@@ -1,12 +1,14 @@
-function call_app(bapp, request, callback) {
+function call_app(txn_uuid, from_address, bapp, request, callback) {
     const { spawn } = require("child_process");
 
     const bapp_dir = "/root/blockumulus/bapps";
 
     rss = request.split(" ");
-    var A = [`${bapp_dir}/${bapp}/code.py`].concat(rss);
+    var A = [`${bapp_dir}/${bapp}/code.py ${txn_uuid} ${from_address}`].concat(rss);
 
     const command = spawn(`python3`, A);
+
+    console.log(`COMMAND: ${A}`);
 
     var result = "";
 

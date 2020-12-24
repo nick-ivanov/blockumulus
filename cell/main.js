@@ -10,6 +10,8 @@ const uuidtrack = require("../api/uuidtrack");
 const report = require("../api/report");
 const contract = require("../api/contract");
 const time = require("../api/time");
+const ecdsa = require("../api/ecdsa");
+const { verify } = require('crypto');
 
 function process_forward(json_object, res) {
     console.log("Hey, there is an incoming transaction forward request.");
@@ -17,7 +19,7 @@ function process_forward(json_object, res) {
     //console.log(`BAPP: ${json_object.command.data.bapp}`);
     console.log(`REQUEST: ${json_object.command.data.request}`);
 
-    call_app.call_app(json_object.command.data.forwarded_message.command.data.bapp, json_object.command.data.forwarded_message.command.data.request,
+    call_app.call_app(json_object.command.uuid, json_object.command.from, json_object.command.data.forwarded_message.command.data.bapp, json_object.command.data.forwarded_message.command.data.request,
         function(result) {
             console.log(`The forwarded app reply: ${result.trim()}`);
 
@@ -36,21 +38,36 @@ function process_forward(json_object, res) {
 }
 
 function process_transaction(json_object, res, forwarded_replies) {
-    console.log("Hey, there is an incoming transaction.");
+    console.log("Incoming transaction.");
 
     var last_report = report.get_last_report();
     var report_due = time.recent_report_due(config_json);
 
-    console.log(`LOG: @cell/main: process_transaction, last_report: ${last_report}`);
-    console.log(`LOG: @cell/main: REPORT, report_due: ${report_due}`);
+    // console.log(`LOG: @cell/main: process_transaction, last_report: ${last_report}`);
+    // console.log(`LOG: @cell/main: REPORT, report_due: ${report_due}`);
 
+
+    // if(!ecdsa.verify_signature(JSON.stringify(json_object.command), json_object.signature, json_object.command.from)) {
+    //     console.log("Invalid signature.");
+    //     var reply_message = compose_message.compose_message (
+    //         "TXN-FAIL",
+    //         json_object.command.from,
+    //         json_object.command.uuid,
+    //         { message: "Invalid signature" },
+    //         config_json.ethereum_address,
+    //         config_json.private_key
+    //     );
+
+    //     res.send(reply_message);
+    // } else 
+    
     if(last_report < report_due) {
         console.log("Report expired");
         var reply_message = compose_message.compose_message (
             "TXN-FAIL",
             json_object.command.from,
             json_object.command.uuid,
-            { app_reply: result.trim(), forwarded_replies: forwarded_replies, message: "Report expired." },
+            { message: "Report expired" },
             config_json.ethereum_address,
             config_json.private_key
         );
@@ -60,7 +77,7 @@ function process_transaction(json_object, res, forwarded_replies) {
     } else {
         console.log("Report update is not needed.");
     
-        call_app.call_app(json_object.command.data.bapp, json_object.command.data.request,
+        call_app.call_app(json_object.command.uuid, json_object.command.from, son_object.command.data.bapp, json_object.command.data.request,
             function(result) {
                 console.log(`The app reply: ${result.trim()}`);
 
@@ -79,19 +96,17 @@ function process_transaction(json_object, res, forwarded_replies) {
     }
 }
 
-function process_report(config_json, callback1) {
+function process_report(config_json, json_object, callback1) {
     last_report = report.get_last_report();
-    console.log(`LOG: @cell/main: REPORT, last_report: ${last_report}`);
-
-    console.log(`LOG: @cell/main, config_json.this_ip: ${config_json.this_ip}`);
+    // console.log(`LOG: @cell/main: REPORT, last_report: ${last_report}`);
+    // console.log(`LOG: @cell/main, config_json.this_ip: ${config_json.this_ip}`);
     
     var contract_config = "../../blockumulus-config/contract-config.json";
-
     var report_due = time.recent_report_due(config_json);
 
     console.log(`LOG: @cell/main: REPORT, report_due: ${report_due}`);
 
-    call_app.call_app("fastmoney", "fingerprint", function(result) {
+    call_app.call_app(json_object.command.uuid, json_object.command.from, "fastmoney", "fingerprint", function(result) {
         console.log(`LOG @cell/main:REPORT, result: ${result}`);
 
 
@@ -182,22 +197,22 @@ function main() {
             }
 
             if(json_object.command.op === "UPLOAD") {
-                console.log("Hey, an upload request is detected.");
+                console.log("Upload request.");
             }
 
             if(json_object.command.op === "ACCOUNT") {
-                console.log("Hey, an account request is detected.");
+                console.log("Account request.");
             }
 
             if(json_object.command.op === "REPORT") {
-                console.log("Hey, a REPORT request is detected.");
+                console.log("REPORT request.");
                 
                 var last_report = report.get_last_report();
                 var report_due = time.recent_report_due(config_json);
 
                 if(last_report < report_due) {
                     console.log("Report expired");
-                    process_report(config_json, function() {
+                    process_report(config_json, json_object, function() {
                         report.save_last_report(report_due);
                         var reply_message = compose_message.compose_message (
                             "REPORT-OK",
@@ -231,10 +246,24 @@ function main() {
             }
 
             if(json_object.command.op === "TXN") {
-                forward.forward_request(config_json, json_object, function(data) {
-                        process_transaction(json_object, res, data);
-                    }
-                );
+                if(!ecdsa.verify_signature(JSON.stringify(json_object.command), json_object.signature, json_object.command.from)) {
+                    console.log("Invalid signature.");
+                    var reply_message = compose_message.compose_message (
+                        "TXN-FAIL",
+                        json_object.command.from,
+                        json_object.command.uuid,
+                        { message: "Invalid signature" },
+                        config_json.ethereum_address,
+                        config_json.private_key
+                    );
+            
+                    res.send(reply_message);
+                } else {
+                    forward.forward_request(config_json, json_object, function(data) {
+                            process_transaction(json_object, res, data);
+                        }
+                    );
+                }
                 //console.log(`Let's see what's in res: ${JSON.stringify(res)}`);
             }
         }
