@@ -126,4 +126,4 @@ function do_cell4_report(contract_json, private_key, timestamp, report_hash, cal
         });
 }
 
-module.exports = { do_cell1_report };
+module.exports = { do_cell1_report, do_cell2_report, do_cell3_report, do_cell4_report };

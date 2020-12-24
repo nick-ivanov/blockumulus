@@ -62,7 +62,7 @@ def main():
     elif sys.argv[3] == "fingerprint":
         print(get_data_snapshot_fingerprint())
     elif sys.argv[3] == "balance":
-        print(get_balance(sys.argv[2]))
+        print(get_balance(sys.argv[4]))
     elif sys.argv[3] == "transfer":
         print(submit_transaction(sys.argv[1], sys.argv[2], sys.argv[4], int(sys.argv[5])))
     else:

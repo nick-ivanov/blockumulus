@@ -17,24 +17,6 @@ function main() {
     s64 = base64.base64_encode(s);
     ss = base64.base64_decode(s64);
 
-    // console.log(time.get_timestamp_sec());
-    // console.log(time.get_timestamp_ms());
-
-    // var message = compose_message.compose_message (
-    //     "TXN",
-    //     "0x550F266Eb5C840fD666369a76D3b416d749a917B",
-    //     "",
-    //     { bapp: "fastmoney", request: `transfer ${uuidv4()} nick bob 2` },
-    //     config_json.ethereum_address,
-    //     config_json.private_key
-    // );
-
-    // var result = post_message.post_message("localhost", 3141, message);
-
-    // console.log(`RESULT: ${result}`);
-
-
-
     if(process.argv[2].toLowerCase() === "txn") {
         var bapp = process.argv[3];
         var arguments = "";
@@ -73,48 +55,25 @@ function main() {
                 console.log(`${JSON.stringify(data)}`);
             }
         );
+
+        post_message.post_message("104.236.14.189", 3141, message, function(data) {
+                console.log(`${JSON.stringify(data)}`);
+            }
+        );
+
+        post_message.post_message("104.236.14.188", 3141, message, function(data) {
+                console.log(`${JSON.stringify(data)}`);
+            }
+        );
+
+        post_message.post_message("157.245.117.157", 3141, message, function(data) {
+                console.log(`${JSON.stringify(data)}`);
+            }
+        );
+
     } else {
 
         console.log(`ERROR: command '${process.argv[2]}' is not recognized.`);
-
-
-        // var message1 = compose_message.compose_message (
-        //     "TXN",
-        //     "0x550F266Eb5C840fD666369a76D3b416d749a917B",
-        //     "",
-        //     { bapp: "fastmoney", request: `balance bob` },
-        //     config_json.ethereum_address,
-        //     config_json.private_key
-        // );
-
-        // post_message.post_message("64.225.14.250", 3141, message1, function(data) {
-        //         console.log(`DATA in client/main(): ${JSON.stringify(data)}`);
-        //         // console.log("===============");
-        //         // console.log(`DATA in client/main() 1: ${data}`);
-        //     }
-        // );
-
-        // var message2 = compose_message.compose_message (
-        //     "TXN",
-        //     "0x550F266Eb5C840fD666369a76D3b416d749a917B",
-        //     "",
-        //     { bapp: "fastmoney", request: `balance nick` },
-        //     config_json.ethereum_address,
-        //     config_json.private_key
-        // );
-
-
-        // post_message.post_message("64.225.14.250", 3141, message2, function(data) {
-        //     console.log(`DATA in client/main(): ${JSON.stringify(data)}`);
-        //     // console.log("===============");
-        //     // console.log(`DATA in client/main() 1: ${data}`);
-        //     }
-        // );
-
-
-
-        //console.log(`RESULT: ${result}`);
-
     }
 }
 

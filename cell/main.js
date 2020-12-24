@@ -19,7 +19,7 @@ function process_forward(json_object, res) {
     //console.log(`BAPP: ${json_object.command.data.bapp}`);
     console.log(`REQUEST: ${json_object.command.data.request}`);
 
-    call_app.call_app(json_object.command.uuid, json_object.command.from, json_object.command.data.forwarded_message.command.data.bapp, json_object.command.data.forwarded_message.command.data.request,
+    call_app.call_app(json_object.command.data.forwarded_message.command.uuid, json_object.command.data.forwarded_message.command.from, json_object.command.data.forwarded_message.command.data.bapp, json_object.command.data.forwarded_message.command.data.request,
         function(result) {
             console.log(`The forwarded app reply: ${result.trim()}`);
 
@@ -77,7 +77,7 @@ function process_transaction(json_object, res, forwarded_replies) {
     } else {
         console.log("Report update is not needed.");
     
-        call_app.call_app(json_object.command.uuid, json_object.command.from, son_object.command.data.bapp, json_object.command.data.request,
+        call_app.call_app(json_object.command.uuid, json_object.command.from, json_object.command.data.bapp, json_object.command.data.request,
             function(result) {
                 console.log(`The app reply: ${result.trim()}`);
 
