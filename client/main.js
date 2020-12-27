@@ -8,8 +8,6 @@ const post_message = require('../api/post_message');
 const compose_message = require('../api/compose_message');
 
 function main() {
-
-    //console.log(process.argv);
     config_json = conf.read_config("../../blockumulus-config/client-config.json");
     //console.log(`Private Key: ${config_json.private_key}, Address: ${config_json.ethereum_address}`);
 
@@ -22,7 +20,7 @@ function main() {
         var arguments = "";
         for(var i = 4; i < process.argv.length; i++) {
             if(i != 4) {
-                arguments +=  " ";
+                arguments += " ";
             }
             arguments += process.argv[i];
         }
