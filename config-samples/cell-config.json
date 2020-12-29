@@ -2,12 +2,29 @@
     "private_key": "0x994f99dc1fbc090196441d55f7514ffdafe80a3a9e9316664e15c4a29f9a74c5",
     "ethereum_address": "0x550F266Eb5C840fD666369a76D3b416d749a917B",
     "seal_period": 600,
-    "cell_ips": ["64.225.14.250", "104.236.14.189", "104.236.14.188", "157.245.117.157"],
+
+    "cell_ips": [  
+                    "52.188.62.238", 
+                    "13.82.136.48",
+                    "13.90.35.55",
+                    "40.121.34.190",
+                    "52.188.145.50",
+                    "13.92.40.188",
+                    "40.88.14.56",
+                    "40.88.2.11"
+                ],
+
     "cell_eth_addresses": [
-        "0x550F266Eb5C840fD666369a76D3b416d749a917B",
-        "0xdbC1Ab23d82E14DD73B0C296323B619d9DDbA369",
-        "0x1F37bc6da4Ce315a0F0a5331aa1509073146AD2C",
-        "0xc46275f7928FAE177A4bEEc4288dBf2807587671"
-    ],
-    "this_ip": "64.225.14.250"
+                    "0x550F266Eb5C840fD666369a76D3b416d749a917B",
+                    "0xdbC1Ab23d82E14DD73B0C296323B619d9DDbA369",
+                    "0x1F37bc6da4Ce315a0F0a5331aa1509073146AD2C",
+                    "0xc46275f7928FAE177A4bEEc4288dBf2807587671",
+                    "0xD9E6c7F1B0531585Ae64eE798Cfa37D7d5FFc73c",
+                    "0xdAd8b0893672932fF71eCb473fCc6c0852d68013",
+                    "0x67Fe43a778EEc69dD66D3035F20B1AFDDb2E86eA",
+                    "0x533B79B81E1e5c0D8F47cfFE610CAff10Eb60C1B"
+                ],
+
+    "this_ip": "52.188.62.238",
+    "number_of_cells": 4
 }

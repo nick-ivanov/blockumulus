@@ -110,7 +110,7 @@ function process_report(config_json, json_object, callback1) {
         console.log(`LOG @cell/main:REPORT, result: ${result}`);
 
 
-        if(config_json.this_ip === "64.225.14.250") {
+        if(config_json.this_ip === "52.188.62.238") {
             contract.do_cell1_report (
                 contract_config,
                 config_json.private_key,
@@ -123,7 +123,7 @@ function process_report(config_json, json_object, callback1) {
             );
         }
 
-        if(config_json.this_ip === "104.236.14.189") {
+        if(config_json.this_ip === "13.82.136.48") {
             contract.do_cell2_report (
                 contract_config,
                 config_json.private_key,
@@ -136,7 +136,7 @@ function process_report(config_json, json_object, callback1) {
             );
         }
 
-        if(config_json.this_ip === "104.236.14.188") {
+        if(config_json.this_ip === "13.90.35.55") {
             contract.do_cell3_report (
                 contract_config,
                 config_json.private_key,
@@ -149,8 +149,60 @@ function process_report(config_json, json_object, callback1) {
             );
         }
 
-        if(config_json.this_ip === "157.245.117.157") {
+        if(config_json.this_ip === "40.121.34.190") {
             contract.do_cell4_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
+        }
+
+        if(config_json.this_ip === "52.188.145.50") {
+            contract.do_cell5_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
+        }
+
+        if(config_json.this_ip === "13.92.40.188") {
+            contract.do_cell6_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
+        }
+
+        if(config_json.this_ip === "40.88.14.56") {
+            contract.do_cell7_report (
+                contract_config,
+                config_json.private_key,
+                report_due,
+                result.trim(),
+                function callback(txnresult) {
+                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    return callback1(txnresult);
+                }
+            );
+        }
+
+        if(config_json.this_ip === "40.88.2.11") {
+            contract.do_cell8_report (
                 contract_config,
                 config_json.private_key,
                 report_due,

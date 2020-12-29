@@ -1,16 +1,11 @@
 {
     "network": "ropsten",
     "infura_api_key": "ef1ce1202d8248a69d1eacd3a6237f28",
-    "smart_contract": "0x5018219A86EAD0024d7386030D09f2598A6aB425",
+    "smart_contract": "0x2F2980067A524a9A12C46354D62B8D769Ee119AB",
     "gas_limit": "2000000",
     "gas_price": "200000000000",
-    "confirmations_needed": 5,
+    "confirmations_needed": 1,
     "contract_abi": [
-        {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
         {
             "inputs": [
                 {
@@ -89,6 +84,83 @@
                     "internalType": "uint256",
                     "name": "timestamp",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "rhash",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "do_cell5_report",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "rhash",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "do_cell6_report",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "rhash",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "do_cell7_report",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "rhash",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "do_cell8_report",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
                 }
             ],
             "name": "get_cell1_report",
@@ -149,6 +221,82 @@
                 }
             ],
             "name": "get_cell4_report",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "get_cell5_report",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "get_cell6_report",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "get_cell7_report",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                }
+            ],
+            "name": "get_cell8_report",
             "outputs": [
                 {
                     "internalType": "bytes32",
