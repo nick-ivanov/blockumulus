@@ -98,13 +98,16 @@ function process_transaction(json_object, res, forwarded_replies) {
 
 function process_report(config_json, json_object, callback1) {
     last_report = report.get_last_report();
-    // console.log(`LOG: @cell/main: REPORT, last_report: ${last_report}`);
-    // console.log(`LOG: @cell/main, config_json.this_ip: ${config_json.this_ip}`);
     
     var contract_config = "../../blockumulus-config/contract-config.json";
     var report_due = time.recent_report_due(config_json);
 
     console.log(`LOG: @cell/main: REPORT, report_due: ${report_due}`);
+
+    console.log(`@process_report: json_object.command.uuid: ${json_object.command.uuid}`);
+    console.log(`@process_report: json_object.command.from: ${json_object.command.from}`);
+    console.log(`@process_report: report_due: ${report_due}`);
+    console.log(`@process_report: result.trim(): ${report_due}`);
 
     call_app.call_app(json_object.command.uuid, json_object.command.from, "fastmoney", "fingerprint", function(result) {
         console.log(`LOG @cell/main:REPORT, result: ${result}`);
@@ -169,7 +172,7 @@ function process_report(config_json, json_object, callback1) {
                 report_due,
                 result.trim(),
                 function callback(txnresult) {
-                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    console.log(`LOG txnresult (cell5): ${JSON.stringify(txnresult)}`);
                     return callback1(txnresult);
                 }
             );
@@ -182,7 +185,7 @@ function process_report(config_json, json_object, callback1) {
                 report_due,
                 result.trim(),
                 function callback(txnresult) {
-                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    console.log(`LOG txnresult (cell6): ${JSON.stringify(txnresult)}`);
                     return callback1(txnresult);
                 }
             );
@@ -195,7 +198,7 @@ function process_report(config_json, json_object, callback1) {
                 report_due,
                 result.trim(),
                 function callback(txnresult) {
-                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    console.log(`LOG txnresult (cell7): ${JSON.stringify(txnresult)}`);
                     return callback1(txnresult);
                 }
             );
@@ -208,7 +211,7 @@ function process_report(config_json, json_object, callback1) {
                 report_due,
                 result.trim(),
                 function callback(txnresult) {
-                    console.log(`LOG txnresult (cell4): ${JSON.stringify(txnresult)}`);
+                    console.log(`LOG txnresult (cell8): ${JSON.stringify(txnresult)}`);
                     return callback1(txnresult);
                 }
             );

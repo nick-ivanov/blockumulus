@@ -1,6 +1,5 @@
 function compose_message(op, to, ref, data, public_address, private_key) {
     const { v4: uuidv4 } = require('uuid');
-
     const ecdsa = require("./ecdsa");
     const time  = require("./time");
 

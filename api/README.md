@@ -16,3 +16,35 @@ This directory provides some common functions used by different components of Bl
 ## hash
 * `keccak256_hash(message)`: returns Keccak256 hash of `message`.
 * `keccak256_hash(message)`: returns Keccak256 hash of `message` without the `0x` prefix.
+
+## base64
+* `foo`: bar
+
+## call_app
+* `foo`: bar
+
+## compose_message
+* `foo`: bar
+
+## contract
+* `foo`: bar
+
+## hashfile
+* `foo`: bar
+
+## post_message
+* `foo`: bar
+
+## report
+* `foo`: bar
+
+## time
+* `foo`: bar
+
+## uuidtrack
+* `foo`: bar
+
+## random_account
+* `generate_random_account()`: bar
+* `get_private_key(account)`: bar
+* `get_public_address(account)`: bar

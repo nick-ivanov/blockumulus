@@ -1,6 +1,7 @@
-import os
+import os, json
 
 def main():
-    print(os.listdir("data/balances"))
+    with fp = open("bapp.json")
+    json.loads(fp.read())
 
 main()

@@ -6,14 +6,19 @@ const time = require("../api/time");
 const file = require("../api/file");
 const post_message = require('../api/post_message');
 const compose_message = require('../api/compose_message');
+const random_account = require("../api/random_account");
+
 
 function main() {
-    config_json = conf.read_config("../../blockumulus-config/client-config.json");
-    //console.log(`Private Key: ${config_json.private_key}, Address: ${config_json.ethereum_address}`);
+    var A = random_account.generate_random_account();
+    var rand_private_key = random_account.get_private_key(A);
+    var rand_address = random_account.get_public_address(A);
 
-    s = "blah";
-    s64 = base64.base64_encode(s);
-    ss = base64.base64_decode(s64);
+    config_json = conf.read_config("../../blockumulus-config/client-config.json");
+
+    //s = "blah";
+    //s64 = base64.base64_encode(s);
+    //ss = base64.base64_decode(s64);
 
     if(process.argv[2].toLowerCase() === "txn") {
         var bapp = process.argv[3];
@@ -27,14 +32,14 @@ function main() {
 
         var message = compose_message.compose_message (
             "TXN",
-            "0x550F266Eb5C840fD666369a76D3b416d749a917B",
+            config_json.service_ethereum_address,
             "",
             { bapp: bapp, request: arguments },
-            config_json.ethereum_address,
-            config_json.private_key
+            rand_address,
+            rand_private_key
         );
 
-        post_message.post_message("64.225.14.250", 3141, message, function(data) {
+        post_message.post_message(config_json.service_cell_ip, 3141, message, function(data) {
                 console.log(`${JSON.stringify(data)}`);
             }
         );
@@ -42,15 +47,13 @@ function main() {
     } else if(process.argv[2].toLowerCase() === "report") {
         var message = compose_message.compose_message (
             "REPORT",
-            "0x550F266Eb5C840fD666369a76D3b416d749a917B",
+            config_json.service_ethereum_address,
             "",
             {},
-            config_json.ethereum_address,
-            config_json.private_key
+            rand_address,
+            rand_private_key
         );
 
-        
-    
         post_message.post_message("52.188.62.238", 3141, message, function(data) {
                 console.log(`${JSON.stringify(data)}`);
             }
@@ -60,7 +63,6 @@ function main() {
                 console.log(`${JSON.stringify(data)}`);
             }
         );
-
 
         if(config_json.number_of_cells > 2) {
             post_message.post_message("13.90.35.55", 3141, message, function(data) {

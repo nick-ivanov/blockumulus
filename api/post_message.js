@@ -1,6 +1,4 @@
 function post_message(address, port, message, callback) {
-    //console.log(`LOG: @post_message address=${address}, port=${port}, message=${message}`);
-
     var Client = require('node-rest-client').Client;
     var client = new Client();
 
@@ -10,8 +8,6 @@ function post_message(address, port, message, callback) {
     };
     
     var req = client.post(`http://${address}:${port}`, args, function (data, response) {
-        // console.log(`DATA: ${JSON.stringify(data)}`);
-        //console.log(`RESPONSE: ${JSON.stringify(response)}`);
         return callback(data);
     });
 

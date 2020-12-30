@@ -13,7 +13,6 @@ function sign_message(message, private_key) {
     return signature;
 }
 
-
 function verify_signature(message, signature, address) {
     var Web3 = require('web3');
     var web3 = new Web3();
@@ -29,7 +28,5 @@ function verify_signature(message, signature, address) {
         return false;
     }
 }
-
-
 
 module.exports = { sign_message, verify_signature };

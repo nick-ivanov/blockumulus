@@ -1,7 +1,7 @@
 import sys, json, pathlib, os, uuid
 from web3 import Web3
 
-APP_PATH = "/root/blockumulus/bapps/fastmoney"
+APP_PATH = "/home/blockumulus/blockumulus/bapps/fastmoney"
 #APP_PATH = "/home/nick/res/blockumulus/yos-repo/blockumulus/bapps/fastmoney"
 
 def get_data_snapshot_fingerprint():

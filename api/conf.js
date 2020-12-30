@@ -1,4 +1,3 @@
-
 function read_config(config_json_file) {
     const fs = require('fs');
 
