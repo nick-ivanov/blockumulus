@@ -5,7 +5,7 @@ const file = require("../api/file");
 // Public address: 0xf61b447aEF8Ae8B8f996A510F2F76C9aE6B42792
 //var private_key = "0x0357fcde5d7b85d11d8cb19e7cf47223e6947b3ebfdf567781c26b1203f8ccf3";
 
-var signature = ecdsa.sign_message("my message1", "0x0357fcde5d7b85d11d8cb19e7cf47223e6947b3ebfdf567781c26b1203f8ccf3");
+var signature = ecdsa.sign_message("my message1", "");
 console.log(signature);
 
 console.log("Signature valid: " + ecdsa.verify_signature("my message1", signature, "0xf61b447aEF8Ae8B8f996A510F2F76C9aE6B42792"));

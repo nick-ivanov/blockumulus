@@ -15,8 +15,10 @@ const post_message = require("../api/post_message");
 //     return "ttt";
 // }
 
-function forward_request(config_json, json_object, callback) {
+function forward_request(config_json, json_object, port, callback) {
     const compose_message = require("../api/compose_message");
+
+    console.log(`@forward.forward_request: HERE`);
 
 
     if(config_json.number_of_cells === 2) {
@@ -31,7 +33,7 @@ function forward_request(config_json, json_object, callback) {
 
         console.log(`LOG @forward_request message0=${message0}`);
 
-        post_message.post_message(config_json.cell_ips[0], 3141, message0, function(data0) {
+        post_message.post_message(config_json.cell_ips[0], port, message0, function(data0) {
 
             var forwarded_replies = [data0];
             return callback(forwarded_replies);
@@ -48,9 +50,9 @@ function forward_request(config_json, json_object, callback) {
             config_json.private_key
         );
 
-        console.log(`LOG @forward_request message0=${message0}`);
+        console.log(`LOG @forward_request message0=${JSON.stringify(message0)}`);
 
-        post_message.post_message(config_json.cell_ips[0], 3141, message0, function(data0) {
+        post_message.post_message(config_json.cell_ips[0], port, message0, function(data0) {
 
             var message1 = compose_message.compose_message (
                 "FORWARD",
@@ -61,9 +63,9 @@ function forward_request(config_json, json_object, callback) {
                 config_json.private_key
             );
 
-            console.log(`LOG @forward_request message1=${message1}`);
+            console.log(`LOG @forward_request message1=${JSON.stringify(message1)}`);
         
-            post_message.post_message(config_json.cell_ips[1], 3141, message1, function(data1) {
+            post_message.post_message(config_json.cell_ips[1], port, message1, function(data1) {
 
                 var message2 = compose_message.compose_message (
                     "FORWARD",
@@ -74,9 +76,9 @@ function forward_request(config_json, json_object, callback) {
                     config_json.private_key
                 );
 
-                console.log(`LOG @forward_request message2=${message2}`);
+                console.log(`LOG @forward_request message2=${JSON.stringify(message2)}`);
                             
-                post_message.post_message(config_json.cell_ips[2], 3141, message2, function(data2) {
+                post_message.post_message(config_json.cell_ips[2], port, message2, function(data2) {
                     var forwarded_replies = [data0, data1, data2];
                     return callback(forwarded_replies);
                 });
@@ -86,6 +88,7 @@ function forward_request(config_json, json_object, callback) {
 
 
     if(config_json.number_of_cells === 8) {
+        console.log(`@forward.forward_request: number of cells is 8`);
         var message0 = compose_message.compose_message (
             "FORWARD",
             config_json.cell_eth_addresses[0],
@@ -95,9 +98,10 @@ function forward_request(config_json, json_object, callback) {
             config_json.private_key
         );
 
-        console.log(`LOG @forward_request message0=${message0}`);
+        console.log(`LOG @forward_request message0=${JSON.stringify(message0)}`);
+        console.log(`LOG @forward_request config_json.cell_ips[0]=${config_json.cell_ips[0]}`);
 
-        post_message.post_message(config_json.cell_ips[0], 3141, message0, function(data0) {
+        post_message.post_message(config_json.cell_ips[0], port, message0, function(data0) {
 
             var message1 = compose_message.compose_message (
                 "FORWARD",
@@ -108,9 +112,9 @@ function forward_request(config_json, json_object, callback) {
                 config_json.private_key
             );
 
-            console.log(`LOG @forward_request message1=${message1}`);
+            console.log(`LOG @forward_request message1=${JSON.stringify(message1)}`);
         
-            post_message.post_message(config_json.cell_ips[1], 3141, message1, function(data1) {
+            post_message.post_message(config_json.cell_ips[1], port, message1, function(data1) {
 
                 var message2 = compose_message.compose_message (
                     "FORWARD",
@@ -121,9 +125,9 @@ function forward_request(config_json, json_object, callback) {
                     config_json.private_key
                 );
 
-                console.log(`LOG @forward_request message2=${message2}`);
+                console.log(`LOG @forward_request message2=${JSON.stringify(message2)}`);
                             
-                post_message.post_message(config_json.cell_ips[2], 3141, message2, function(data2) {
+                post_message.post_message(config_json.cell_ips[2], port, message2, function(data2) {
 
                     var message3 = compose_message.compose_message (
                         "FORWARD",
@@ -134,9 +138,9 @@ function forward_request(config_json, json_object, callback) {
                         config_json.private_key
                     );
     
-                    console.log(`LOG @forward_request message2=${message3}`);
+                    console.log(`LOG @forward_request message3=${JSON.stringify(message3)}`);
                                 
-                    post_message.post_message(config_json.cell_ips[3], 3141, message3, function(data3) {
+                    post_message.post_message(config_json.cell_ips[3], port, message3, function(data3) {
 
                         var message4 = compose_message.compose_message (
                             "FORWARD",
@@ -147,9 +151,9 @@ function forward_request(config_json, json_object, callback) {
                             config_json.private_key
                         );
         
-                        console.log(`LOG @forward_request message2=${message4}`);
+                        console.log(`LOG @forward_request message4=${JSON.stringify(message4)}`);
                                     
-                        post_message.post_message(config_json.cell_ips[4], 3141, message4, function(data4) {
+                        post_message.post_message(config_json.cell_ips[4], port, message4, function(data4) {
 
                             var message5 = compose_message.compose_message (
                                 "FORWARD",
@@ -160,9 +164,9 @@ function forward_request(config_json, json_object, callback) {
                                 config_json.private_key
                             );
             
-                            console.log(`LOG @forward_request message2=${message5}`);
+                            console.log(`LOG @forward_request message5=${JSON.stringify(message5)}`);
                                         
-                            post_message.post_message(config_json.cell_ips[5], 3141, message5, function(data5) {
+                            post_message.post_message(config_json.cell_ips[5], port, message5, function(data5) {
 
                                 var message6 = compose_message.compose_message (
                                     "FORWARD",
@@ -173,9 +177,9 @@ function forward_request(config_json, json_object, callback) {
                                     config_json.private_key
                                 );
                 
-                                console.log(`LOG @forward_request message2=${message6}`);
+                                console.log(`LOG @forward_request message6=${JSON.stringify(message6)}`);
                                             
-                                post_message.post_message(config_json.cell_ips[6], 3141, message6, function(data6) {
+                                post_message.post_message(config_json.cell_ips[6], port, message6, function(data6) {
                                     var forwarded_replies = [data0, data1, data2, data3, data4, data5, data6];
                                     return callback(forwarded_replies);
                                 });

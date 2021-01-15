@@ -11,7 +11,8 @@ def get_data_snapshot_fingerprint():
     ret.extend(balances)
     ret.extend(transactions)
     s = ''.join(sorted(ret, reverse=False))
-    return Web3.toHex(Web3.keccak(text=s))
+    result = Web3.toHex(Web3.keccak(text=s))
+    return result
 
 def get_balance(wallet):
     try:
@@ -58,6 +59,7 @@ def submit_transaction(txn_uuid, from_address, dst, amount):
 
 def main():
     if len(sys.argv) < 2:
+        print("Too few arguments")
         return
     elif sys.argv[3] == "fingerprint":
         print(get_data_snapshot_fingerprint())
@@ -66,6 +68,8 @@ def main():
     elif sys.argv[3] == "transfer":
         print(submit_transaction(sys.argv[1], sys.argv[2], sys.argv[4], int(sys.argv[5])))
     else:
-        print("False")    
+        print("False")
+
+    sys.exit(0)
 
 main()

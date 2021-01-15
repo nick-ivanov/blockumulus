@@ -1,5 +1,5 @@
 MASTER_USER=blockumulus
-MASTER_PWD=q8smbmM5TgbYR4X
+MASTER_PWD=
 MASTER_HOME=/home/blockumulus
 
 NODE1_HOST=52.188.62.238
@@ -29,7 +29,9 @@ deployone:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deploytwo:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -40,7 +42,9 @@ deploytwo:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &	
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deploythree:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -51,7 +55,9 @@ deploythree:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &	
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deployfour:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -62,7 +68,9 @@ deployfour:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &	
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deployfive:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -72,8 +80,9 @@ deployfive:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install body-parser'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &	
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deploysix:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -83,8 +92,9 @@ deploysix:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install body-parser'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deployseven:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -94,8 +104,9 @@ deployseven:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install body-parser'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deployeight:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -105,8 +116,9 @@ deployeight:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install body-parser'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && npm install express'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
-	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && sudo nohup node main > ~/blockumulus.log' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && chmod a+x *.sh'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 # === CLIENT POOLS ===
 
@@ -116,6 +128,7 @@ deploycpone:
 	sshpass -p$(MASTER_PWD) scp -r * $(MASTER_USER)@$(CPOOL1_HOST):/$(MASTER_HOME)/blockumulus
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(CPOOL1_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install web3'
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(CPOOL1_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(CPOOL1_HOST) 'cd /$(MASTER_HOME)/blockumulus/client && chmod +x *.sh'
 
 deploycptwo:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(CPOOL2_HOST) 'rm -fr $(MASTER_HOME)/blockumulus'
@@ -167,8 +180,46 @@ deploycpeight:
 	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(CPOOL8_HOST) 'cd /$(MASTER_HOME)/blockumulus/api && npm install node-rest-client'
 
 
+
+# ==== RESTART CELLS ====
+
+restartone:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE1_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+restarttwo:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE2_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+restartthree:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE3_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+restartfour:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE4_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+restartfive:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE5_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+restartsix:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE6_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+restartseven:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE7_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+restarteight:
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'echo `sudo killall node`'
+	sshpass -p$(MASTER_PWD) ssh $(MASTER_USER)@$(NODE8_HOST) 'cd /$(MASTER_HOME)/blockumulus/cell && ./launch-cells.sh' &
+
+
 deploycells: deployone deploytwo deploythree deployfour deployfive deploysix deployseven deployeight
 
 deployclients: deploycpone deploycptwo deploycpthree deploycpfour deploycpfive deploycpsix deploycpseven deploycpeight
+
+restartcells: restartone restarttwo restartthree restartfour restartfive restartsix restartseven restarteight
 
 deploy: deploycells deployclients

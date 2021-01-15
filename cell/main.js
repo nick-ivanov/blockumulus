@@ -16,25 +16,58 @@ const { verify } = require('crypto');
 function process_forward(json_object, res) {
     console.log("Hey, there is an incoming transaction forward request.");
 
-    //console.log(`BAPP: ${json_object.command.data.bapp}`);
-    console.log(`REQUEST: ${json_object.command.data.request}`);
 
-    call_app.call_app(json_object.command.data.forwarded_message.command.uuid, json_object.command.data.forwarded_message.command.from, json_object.command.data.forwarded_message.command.data.bapp, json_object.command.data.forwarded_message.command.data.request,
-        function(result) {
-            console.log(`The forwarded app reply: ${result.trim()}`);
+    if(json_object.command.data.forwarded_message.command.op === "TXN") {
 
+
+        //console.log(`BAPP: ${json_object.command.data.bapp}`);
+        console.log(`REQUEST: ${json_object.command.data.request}`);
+
+        call_app.call_app(json_object.command.data.forwarded_message.command.uuid, json_object.command.data.forwarded_message.command.from, json_object.command.data.forwarded_message.command.data.bapp, json_object.command.data.forwarded_message.command.data.request,
+            function(result) {
+                console.log(`The forwarded app reply: ${result.trim()}`);
+
+                var reply_message = compose_message.compose_message (
+                    "FORWARD-OK",
+                    json_object.command.from,
+                    json_object.command.uuid,
+                    { fwd_app_reply: result.trim() },
+                    config_json.ethereum_address,
+                    config_json.private_key
+                );
+        
+                res.send(reply_message);
+            }
+        );
+
+    } 
+    
+    if(json_object.command.data.forwarded_message.command.op === "UPLOAD") {
+        console.log("Hey, upload request detected.");
+        var decoded_data = base64.base64_decode(json_object.command.data.forwarded_message.command.data.base64_blob);
+
+        console.log("Size: " + decoded_data.length);
+
+        if(hashfile.write_hashfile("data", decoded_data) == true) {
+            console.log("File written successfully.");
             var reply_message = compose_message.compose_message (
-                "FORWARD-OK",
-                json_object.command.from,
-                json_object.command.uuid,
-                { fwd_app_reply: result.trim() },
+                "UPLOAD-OK",
+                json_object.command.data.forwarded_message.command.from,
+                json_object.command.data.forwarded_message.command.uuid,
+                { },
                 config_json.ethereum_address,
                 config_json.private_key
             );
-    
+
             res.send(reply_message);
+
+
+        } else {
+            console.log("Error writing file.");
         }
-    );
+    }
+
+
 }
 
 function process_transaction(json_object, res, forwarded_replies) {
@@ -220,10 +253,12 @@ function process_report(config_json, json_object, callback1) {
 }
 
 function main() {
+    console.log(`PORT: ${parseInt(process.argv[2])}`);
+
     const express = require('express');
     const bodyParser = require('body-parser');
     const app = express();
-    const port = 3141;
+    const port = parseInt(process.argv[2]);
 
     config_json = conf.read_config("../../blockumulus-config/cell-config.json");
 
@@ -239,20 +274,48 @@ function main() {
             uuidtrack.register_uuid("used_uuids", json_object.command.uuid);
 
             if(json_object.command.op === "UPLOAD") {
-                console.log("Hey, upload request detected.");
-                var decoded_data = base64.base64_decode(json_object.command.data.base64_blob);
+                
 
-                console.log("Size: " + decoded_data.length);
 
-                if(hashfile.write_hashfile("data", decoded_data) == true) {
-                    console.log("File written successfully.");
+                if(!ecdsa.verify_signature(JSON.stringify(json_object.command), json_object.signature, json_object.command.from)) {
+                    console.log("Invalid signature.");
+                    var reply_message = compose_message.compose_message (
+                        "UPLOAD-FAIL",
+                        json_object.command.from,
+                        json_object.command.uuid,
+                        { message: "Invalid signature" },
+                        config_json.ethereum_address,
+                        config_json.private_key
+                    );
+            
+                    res.send(reply_message);
                 } else {
-                    console.log("Error writing file.");
-                }
-            }
+                    forward.forward_request(config_json, json_object, port, function(data) {
+                            console.log("Hey, upload request detected.");
+                            var decoded_data = base64.base64_decode(json_object.command.data.base64_blob);
 
-            if(json_object.command.op === "UPLOAD") {
-                console.log("Upload request.");
+                            console.log("Size: " + decoded_data.length);
+
+                            if(hashfile.write_hashfile("data", decoded_data) == true) {
+                                console.log("File written successfully.");
+                                var reply_message = compose_message.compose_message (
+                                    "UPLOAD-OK",
+                                    json_object.command.from,
+                                    json_object.command.uuid,
+                                    { },
+                                    config_json.ethereum_address,
+                                    config_json.private_key
+                                );
+            
+                                res.send(reply_message);
+            
+            
+                            } else {
+                                console.log("Error writing file.");
+                            }
+                        }
+                    );
+                }                
             }
 
             if(json_object.command.op === "ACCOUNT") {
@@ -301,6 +364,7 @@ function main() {
             }
 
             if(json_object.command.op === "TXN") {
+                console.log(`@cell/main: Yes, I am at TXN`);
                 if(!ecdsa.verify_signature(JSON.stringify(json_object.command), json_object.signature, json_object.command.from)) {
                     console.log("Invalid signature.");
                     var reply_message = compose_message.compose_message (
@@ -314,7 +378,9 @@ function main() {
             
                     res.send(reply_message);
                 } else {
-                    forward.forward_request(config_json, json_object, function(data) {
+                    console.log(`@cell/main: Yes, I am at TXN => else`);
+                    forward.forward_request(config_json, json_object, port, function(data) {
+                        console.log(`@cell/main: Yes, I am at TXN => else => forward-request-callback`);
                             process_transaction(json_object, res, data);
                         }
                     );
